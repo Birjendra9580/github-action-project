@@ -87,12 +87,14 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build and Sonarqube scan
+      - name: Build and SonarQube Scan
         run: |
           mvn clean verify \
             org.sonarsource.scanner.maven:sonar-maven-plugin:5.5.0.6356:sonar \
             -Dsonar.host.url=${{ vars.SONAR_HOST_URL }} \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.projectKey=bankapp \
+            -Dsonar.projectName=bankapp
 
       - name: SonarQube Quality Gate Check
         uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
