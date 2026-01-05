@@ -44,6 +44,33 @@ jobs:
           path: |
             fs-report.json
             gitleaks-report.json
+  
+
+  test:
+    runs-on: self-hosted
+    needs: security-check
+
+    steps:
+      - name: checkout source code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with: 
+          java-version: "17"
+          distribution: "temurin"
+          cache: maven
+
+      - name: Run Unit test
+        run: mvn test
+
+      - name: Upload test reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: target/surefire-reports/
+          
+
 
 
          
